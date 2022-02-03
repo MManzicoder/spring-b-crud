@@ -15,14 +15,25 @@ public class StudentService {
     public List<Student> getStudents(){
        return this.studentRepository.findAll();
     }
-    public Message addStudent(Student student){
+    public Message addStudent(Student student) throws Exception {
+        Optional<Student> returnedStudent = this.studentRepository.findStudentByEmail(student.getEmail());
+        if(returnedStudent.isPresent()){
+            throw new Exception("Email already exists!");
+        }
         this.studentRepository.save(student);
         return new Message("added student ");
     }
     public Message deleteStudent(Long id){
-     return new Message("deleted student");
+        Boolean exists = this.studentRepository.existsById(id);
+        if(!exists)
+            throw new IllegalStateException("Student with id "+id+" doesn't exists!");
+        this.studentRepository.deleteById(id);
+        return new Message("deleted student");
     }
     public Optional<Student> getStudent(Long id){
+        Boolean exists = this.studentRepository.existsById(id);
+        if(!exists)
+            throw new IllegalStateException("Student with id "+id+" doesn't exists!");
         return studentRepository.findById(id);
       }
     public Student updateStudent(Long id, Student st){

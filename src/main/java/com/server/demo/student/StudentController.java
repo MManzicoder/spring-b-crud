@@ -19,19 +19,19 @@ public class StudentController {
         return this.studentService.getStudents();
     }
     @PostMapping
-    public Message addStudent(@RequestBody Student body){
+    public Message addStudent(@RequestBody Student body) throws Exception {
         return this.studentService.addStudent(body);
     }
-    @GetMapping("{id}")
-    public Optional<Student> getStudent(@PathVariable Long id){
+    @GetMapping(path = "{id}")
+    public Optional<Student> getStudent(@PathVariable("id") Long id){
         return this.studentService.getStudent(id);
     }
-    @DeleteMapping("/students/:id")
-    public Message deleteStudent(@PathVariable Long id){
+    @DeleteMapping(path = "{id}")
+    public Message deleteStudent(@PathVariable("id") Long id){
         return this.studentService.deleteStudent(id);
     }
-    @PutMapping("/{id}")
-    public Student updateStudent(@PathVariable Long id, @RequestBody Student st){
+    @PutMapping(path = "{id}")
+    public Student updateStudent(@PathVariable("id") Long id, @RequestBody Student st){
         return this.studentService.updateStudent(id, st);
 
     }
